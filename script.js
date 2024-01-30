@@ -21,17 +21,14 @@ function getPlayerInput () {
 function calculateRound(computer, player){
   if(computer === player){
     printRound(null);
-  } else if (computer === "rock" && player === "scissors"){
+  } else if ((computer === "scissors" && player === "paper") ||
+   (computer === "rock" && player === "scissors") ||
+   (computer === "paper" && player === "rock") ){
     printRound(false, formatResult(computer), formatResult(player));
-  } else if (computer === "paper" && player === "rock"){
-    printRound(false, formatResult(computer), formatResult(player));
-  } else if (computer === "scissors" && player === "paper"){
-    printRound(false, formatResult(computer), formatResult(player));
-  } else if (computer === "rock" && player === "paper"){
-    printRound(true, formatResult(player), formatResult(computer));
-  } else if (computer === "paper" && player === "scissors"){
-    printRound(true, formatResult(player), formatResult(computer));
-  } else if (computer === "scissors" && player === "rock"){
+  } 
+  else if ((computer === "rock" && player === "paper" ) ||
+  (computer === "paper" && player === "scissors" ) ||
+  (computer === "scissors" && player === "rock" )  ){
     printRound(true, formatResult(player), formatResult(computer));
   } else {
     console.log("Invalid user input")
@@ -43,11 +40,18 @@ function formatResult(stringInput) {
 }
 function printRound (outcome=null, winner, loser) {
   if(outcome === true){
-    console.log(`You win!${winner} beats ${loser}`)
+    console.log(`You win!${winner} beats ${loser}`);
   } else if (outcome === false){
-    console.log(`You lose!${winner} beats ${loser}`)
+    console.log(`You lose!${winner} beats ${loser}`);
   } else {
-    console.log(`It's a draw!`)
+    console.log(`It's a draw!`);
   } 
 }
-calculateRound(getComputerChoice(), getPlayerInput())
+function playGame(){
+    calculateRound(getComputerChoice(), getPlayerInput());
+  }
+playGame();
+playGame();
+playGame();
+playGame();
+playGame();
