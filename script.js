@@ -1,3 +1,5 @@
+let pcPoints = 0;
+let playerPoints = 0;
 function getValueInt(){
   let a = Math.floor(Math.random() * 3);
   console.log(a);
@@ -16,9 +18,14 @@ function getComputerChoice (){
   }
 }
 function getPlayerInput () {
-  return prompt("What do you pick?").toLowerCase();
+  let a = String(prompt("What do you pick?"));
+  if (a !== "" || a !== null || a !== undefined){
+    a.toLowerCase();
+  } else {
+    return "";
+  }
 }
-function calculateRound(computer, player){
+function playGame(computer, player){
   if(computer === player){
     printRound(null);
   } else if ((computer === "scissors" && player === "paper") ||
@@ -33,25 +40,53 @@ function calculateRound(computer, player){
   } else {
     console.log("Invalid user input")
   }
+  if (pcPoints === 5 || playerPoints === 5) {
+    announceWinner();
+    pcPoints = 0;
+    playerPoints = 0;
+  }
 }
 function formatResult(stringInput) {
   let a = stringInput[0];
   return stringInput.replace(a, a.toUpperCase())
 }
 function printRound (outcome=null, winner, loser) {
-  if(outcome === true){
-    console.log(`You win!${winner} beats ${loser}`);
-  } else if (outcome === false){
-    console.log(`You lose!${winner} beats ${loser}`);
+  const responseDiv = document.getElementById('response');
+  if (outcome === true) {
+    responseDiv.textContent = `You win! ${winner} beats ${loser}`;
+    playerPoints = playerPoints + 1;
+  } else if (outcome === false) {
+    responseDiv.textContent = `You lose! ${winner} beats ${loser}`;
+    pcPoints = pcPoints + 1;
   } else {
-    console.log(`It's a draw!`);
-  } 
-}
-function playGame(){
-    calculateRound(getComputerChoice(), getPlayerInput());
+    responseDiv.textContent = `It's a draw!`;
   }
-playGame();
-playGame();
-playGame();
-playGame();
-playGame();
+}
+function announceWinner() {
+  const responseDiv = document.getElementById("response");
+  if (pcPoints === 5) {
+    alert(`Computer wins!`);
+    responseDiv.textContent = `Computer wins!`;
+  } else if (playerPoints === 5) {
+    alert(`Player wins!`)
+    responseDiv.textContent = `You win!`;
+  }
+}
+let rock = document.getElementById("rock");
+rock.addEventListener('click', () => {
+  playGame(getComputerChoice(), "rock");
+});
+
+let paper = document.getElementById("paper");
+paper.addEventListener('click', () => {
+  playGame(getComputerChoice(), "paper");
+});
+
+let scissors = document.getElementById("scissors");
+scissors.addEventListener('click', () => {
+  playGame(getComputerChoice(), "scissors");
+});
+
+
+
+
